@@ -255,7 +255,7 @@ class Tokenizer extends AParseFunction
      * Метод определяющий последовательность
      *
      * @param IToken[] $tokens
-     * @param int[] $sequences
+     * @param mixed[] $sequences
      */
     protected function sequence(array $tokens, int $type, array $sequences): bool
     {
