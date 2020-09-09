@@ -1,0 +1,29 @@
+<?php
+/*
+ */
+
+namespace {
+
+    /**
+     * Interface IFixtureA
+     *
+     * @author Nikolay Gorohovsky <fi1a@icloud.com>
+     */
+    interface IFixtureA
+    {
+
+        /**
+         * @return string
+         */
+        public function foo();
+
+        /**
+         * @param int $argument1
+         * @param int $argument2
+         *
+         * @return int
+         */
+        public function bar($argument1, $argument2);
+    }
+
+}
