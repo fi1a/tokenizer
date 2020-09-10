@@ -26,10 +26,7 @@
   "autoload": {
     "psr-4": {
       "Fi1a\\Tokenizer\\": "src"
-    },
-    "files": [
-      "src/PHP/define.php"
-    ]
+    }
   },
   "autoload-dev": {
     "psr-4": {

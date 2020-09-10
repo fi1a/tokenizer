@@ -9,7 +9,6 @@ use const T_AND_EQUAL;
 use const T_ARRAY;
 use const T_ARRAY_CAST;
 use const T_AS;
-use const T_BAD_CHARACTER;
 use const T_BOOLEAN_AND;
 use const T_BOOLEAN_OR;
 use const T_BOOL_CAST;
@@ -22,7 +21,6 @@ use const T_CLASS_C;
 use const T_CLONE;
 use const T_CLOSE_TAG;
 use const T_COALESCE;
-use const T_COALESCE_EQUAL;
 use const T_COMMENT;
 use const T_CONCAT_EQUAL;
 use const T_CONST;
@@ -60,7 +58,6 @@ use const T_EXTENDS;
 use const T_FILE;
 use const T_FINAL;
 use const T_FINALLY;
-use const T_FN;
 use const T_FOR;
 use const T_FOREACH;
 use const T_FUNCTION;
@@ -118,7 +115,6 @@ use const T_REQUIRE_ONCE;
 use const T_RETURN;
 use const T_SL;
 use const T_SL_EQUAL;
-use const T_SPACESHIP;
 use const T_SR;
 use const T_SR_EQUAL;
 use const T_START_HEREDOC;
@@ -159,7 +155,7 @@ abstract class ATokenizer extends \Fi1a\Tokenizer\ATokenizer
         T_ARRAY => Token::T_ARRAY,
         T_ARRAY_CAST => Token::T_ARRAY_CAST,
         T_AS => Token::T_AS,
-        T_BAD_CHARACTER => Token::T_BAD_CHARACTER,
+        60 => Token::T_BAD_CHARACTER,
         T_BOOLEAN_AND => Token::T_BOOLEAN_AND,
         T_BOOLEAN_OR => Token::T_BOOLEAN_OR,
         T_BOOL_CAST => Token::T_BOOL_CAST,
@@ -232,7 +228,7 @@ abstract class ATokenizer extends \Fi1a\Tokenizer\ATokenizer
         T_IS_NOT_EQUAL => Token::T_IS_NOT_EQUAL,
         T_IS_NOT_IDENTICAL => Token::T_IS_NOT_IDENTICAL,
         T_IS_SMALLER_OR_EQUAL => Token::T_IS_SMALLER_OR_EQUAL,
-        T_SPACESHIP => Token::T_SPACESHIP,
+        790 => Token::T_SPACESHIP,
         T_LINE => Token::T_LINE,
         T_LIST => Token::T_LIST,
         T_LNUMBER => Token::T_LNUMBER,
@@ -288,8 +284,8 @@ abstract class ATokenizer extends \Fi1a\Tokenizer\ATokenizer
         T_XOR_EQUAL => Token::T_XOR_EQUAL,
         T_YIELD => Token::T_YIELD,
         T_COALESCE => Token::T_COALESCE,
-        T_COALESCE_EQUAL => Token::T_COALESCE_EQUAL,
-        T_FN => Token::T_FN,
+        282 => Token::T_COALESCE_EQUAL,
+        343 => Token::T_FN,
         T_YIELD_FROM => Token::T_YIELD_FROM,
     ];
 
