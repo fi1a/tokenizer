@@ -10,7 +10,7 @@ namespace Fi1a\Tokenizer;
 interface ITokenFactory
 {
     /**
-     * Фабрика классов токенов CSS3 селектора
+     * Фабрика классов токенов
      *
      * @param int    $type        тип токена
      * @param string $image       изображение

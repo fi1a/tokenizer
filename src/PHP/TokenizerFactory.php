@@ -8,7 +8,7 @@ use Fi1a\Tokenizer\ITokenizer;
 use Fi1a\Tokenizer\ITokenizerFactory;
 
 /**
- * Фабрика TokenizerFactory
+ * Фабрика лексического анализатора PHP
  */
 class TokenizerFactory implements ITokenizerFactory
 {

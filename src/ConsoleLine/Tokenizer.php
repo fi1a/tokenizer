@@ -8,7 +8,7 @@ use Fi1a\Tokenizer\AParseFunction;
 use Fi1a\Tokenizer\IToken;
 
 /**
- * Класс для консольной строки
+ * Лексический анализатор для консольной строки
  */
 class Tokenizer extends AParseFunction
 {

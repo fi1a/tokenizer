@@ -58,17 +58,17 @@ interface ITokenizer
     public function current();
 
     /**
-     * Возвращает тип текущего токена. Если достигнут конец очереди возвращает ITokenizer::T_EOF.
+     * Возвращает тип текущего токена. Если достигнут конец очереди, возвращает ITokenizer::T_EOF.
      */
     public function peekType(): int;
 
     /**
-     * Возвращает тип следующего токена. Если достигнут конец очереди возвращает ITokenizer::T_EOF.
+     * Возвращает тип следующего токена. Если достигнут конец очереди, возвращает ITokenizer::T_EOF.
      */
     public function peekNextType(): int;
 
     /**
-     * Возвращает тип предыдущего токена. Если достигнуто начало очереди возвращает ITokenizer::T_BOF.
+     * Возвращает тип предыдущего токена. Если достигнуто начало очереди, возвращает ITokenizer::T_BOF.
      */
     public function peekPrevType(): int;
 

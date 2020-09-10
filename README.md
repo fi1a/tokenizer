@@ -1,4 +1,4 @@
-# Разбор входной последовательности символов на распознанные группы (лексемы).
+# Лексические анализаторы.
 
 [![Latest Version][badge-release]][packagist]
 [![Software License][badge-license]][license]
@@ -7,7 +7,7 @@
 [![Coverage Status][badge-coverage]][coverage]
 [![Total Downloads][badge-downloads]][downloads]
 
-Пакет fi1a/tokenizer предоставляет инструменты для разбора входной последовательности консольной строки, CSS3 селекторов и PHP >=7.3.
+Пакет fi1a/tokenizer предоставляет инструменты для разбора входной последовательности консольной строки, CSS3 селекторов и PHP кода.
 
 ## Установка
 

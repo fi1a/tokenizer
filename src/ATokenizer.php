@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Fi1a\Tokenizer;
 
 /**
- * Абстрактный класс реализующий интерфейс ITokenizer
+ * Абстрактный класс лексического анализатора, реализующий интерфейс ITokenizer
  */
 abstract class ATokenizer implements ITokenizer
 {

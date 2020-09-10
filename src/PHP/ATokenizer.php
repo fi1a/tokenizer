@@ -139,7 +139,7 @@ use const T_YIELD;
 use const T_YIELD_FROM;
 
 /**
- * Абстрактный класс PHP реализующий интерфейс ITokenizer
+ * Абстрактный класс PHP лексического анализатора
  */
 abstract class ATokenizer extends \Fi1a\Tokenizer\ATokenizer
 {

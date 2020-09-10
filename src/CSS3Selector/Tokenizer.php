@@ -8,7 +8,7 @@ use Fi1a\Tokenizer\AParseFunction;
 use Fi1a\Tokenizer\IToken;
 
 /**
- * Класс для CSS3 селектора
+ * Лексический анализатор для CSS3 селектора
  */
 class Tokenizer extends AParseFunction
 {
@@ -252,7 +252,7 @@ class Tokenizer extends AParseFunction
     }
 
     /**
-     * Метод определяющий последовательность
+     * Метод, определяющий последовательность
      *
      * @param IToken[] $tokens
      * @param mixed[] $sequences
@@ -425,7 +425,7 @@ class Tokenizer extends AParseFunction
     }
 
     /**
-     * Парсинг пробельного символа
+     * Парсинг пробела
      *
      * @param IToken[]    $tokens
      */
