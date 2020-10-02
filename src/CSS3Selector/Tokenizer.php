@@ -364,7 +364,7 @@ class Tokenizer extends AParseFunction
         bool &$single
     ): void {
         $type = Token::T_ID;
-        $this->parseBase($source, $current, $image, $quote, $single);
+        $this->parseWithEscape($source, $current, $image, $quote, $single);
     }
 
     /**
@@ -421,7 +421,7 @@ class Tokenizer extends AParseFunction
         bool &$single
     ): void {
         $type = Token::T_CLASS;
-        $this->parseBase($source, $current, $image, $quote, $single);
+        $this->parseWithEscape($source, $current, $image, $quote, $single);
     }
 
     /**
@@ -501,6 +501,47 @@ class Tokenizer extends AParseFunction
         } while ($loop);
         $current--;
         $this->setParseFunction('parse');
+    }
+
+    /**
+     * Основной парсер для ID и классов
+     */
+    protected function parseWithEscape(
+        string &$source,
+        int &$current,
+        string &$image,
+        bool &$quote,
+        bool &$single
+    ): void {
+        do {
+            if (
+                isset($source[$current])
+                && (
+                    $source[$current] !== '\\'
+                    || ($current > 0 && $source[$current] === '\\' && $source[$current - 1] === '\\')
+                )
+            ) {
+                $image .= $source[$current];
+            }
+            $loop = $this->logicWQSWithEscape($source, $current, $quote, $single);
+            $current++;
+        } while ($loop);
+        $current--;
+        $this->setParseFunction('parse');
+    }
+
+    /**
+     * Основная логика выхода из цикла
+     */
+    protected function logicWQSWithEscape(string $source, int $current, bool $quote, bool $single): bool
+    {
+        if (!isset($source[$current + 1])) {
+            return false;
+        } elseif (preg_match('/[^a-z0-9\-\_\\\]/im', $source[$current + 1]) && $source[$current] !== '\\') {
+            return false;
+        }
+
+        return true;
     }
 
     /**

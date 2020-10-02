@@ -372,6 +372,22 @@ class TokenizerTest extends TestCase
                     Token::T_CLOSE_ATTRIBUTE,
                 ],
             ],
+            [
+                '#div\.div\[div\]\\\\div',
+                1,
+                ['#div.div[div]\\div'],
+                [
+                    Token::T_ID,
+                ],
+            ],
+            [
+                '.div\.div\[div\]\\\\div',
+                1,
+                ['.div.div[div]\\div'],
+                [
+                    Token::T_CLASS,
+                ],
+            ],
         ];
     }
 
@@ -388,14 +404,12 @@ class TokenizerTest extends TestCase
         $tokenizer = new Tokenizer($command);
         $imagesEquals = [];
         $typesEquals = [];
-        $image = '';
+
         while (($token = $tokenizer->next()) !== ITokenizer::T_EOF) {
             $imagesEquals[] = $token->getImage();
             $typesEquals[] = $token->getType();
-            $image .= $token->getImage();
         }
 
-        $this->assertEquals($command, $image);
         $this->assertEquals($images, $imagesEquals);
         $this->assertEquals($types, $typesEquals);
         $this->assertEquals($count, $tokenizer->getCount());

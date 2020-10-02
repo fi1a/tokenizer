@@ -289,6 +289,22 @@ class Tokenizer extends AParseFunction
     }
 
     /**
+     * Преобразование
+     */
+    protected function escape(string $source): string
+    {
+        return str_replace('\\\\', chr(27), $source);
+    }
+
+    /**
+     * Обратное преобразование
+     */
+    protected function unescape(string $source): string
+    {
+        return str_replace(chr(27), '\\\\', $source);
+    }
+
+    /**
      * @inheritDoc
      */
     public static function getTokenFactory()

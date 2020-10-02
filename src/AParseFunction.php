@@ -76,7 +76,7 @@ abstract class AParseFunction extends ATokenizer
      */
     protected function escape(string $source): string
     {
-        return str_replace('\\\\', chr(27), $source);
+        return $source;
     }
 
     /**
@@ -84,6 +84,6 @@ abstract class AParseFunction extends ATokenizer
      */
     protected function unescape(string $source): string
     {
-        return str_replace(chr(27), '\\\\', $source);
+        return $source;
     }
 }
