@@ -116,7 +116,7 @@ interface ITokenizer
     /**
      * Возвращает класс фабрики токенов
      *
-     * @return ITokenFactory
+     * @return ITokenFactory|string
      */
     public static function getTokenFactory();
 }

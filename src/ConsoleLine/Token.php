@@ -51,9 +51,9 @@ class Token extends AToken
     public const T_PARENTHESES_CLOSE = 170;
 
     /**
-     * @var array
+     * @var int[]
      */
-    protected static $types = [
+    private static $types = [
         self::T_UNKNOWN_TOKEN_TYPE,
         self::T_WHITE_SPACE,
         self::T_ARGUMENT,
@@ -81,6 +81,6 @@ class Token extends AToken
      */
     protected function getTypes(): array
     {
-        return static::$types;
+        return self::$types;
     }
 }

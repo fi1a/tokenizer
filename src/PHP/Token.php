@@ -766,9 +766,10 @@ class Token extends AToken
     public const T_YIELD_FROM = 1510;
 
     /**
-     * @var array
+     * @var int[]
+     * @psalm-param int[]
      */
-    protected static $types = [
+    private static $types = [
         self::T_UNKNOWN_TOKEN_TYPE,
         self::T_ABSTRACT,
         self::T_AND_EQUAL,
@@ -869,7 +870,6 @@ class Token extends AToken
         self::T_OPEN_TAG,
         self::T_OPEN_TAG_WITH_ECHO,
         self::T_OR_EQUAL,
-        self::T_PAAMAYIM_NEKUDOTAYIM,
         self::T_PLUS_EQUAL,
         self::T_POW,
         self::T_POW_EQUAL,
@@ -930,6 +930,6 @@ class Token extends AToken
      */
     protected function getTypes(): array
     {
-        return static::$types;
+        return self::$types;
     }
 }

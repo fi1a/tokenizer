@@ -138,9 +138,9 @@ class Token extends AToken
     public const T_MULTIPLE_SELECTOR = 240;
 
     /**
-     * @var array
+     * @var int[]
      */
-    protected static $types = [
+    private static $types = [
         self::T_UNKNOWN_TOKEN_TYPE,
         self::T_WHITE_SPACE,
         self::T_TAG,
@@ -175,6 +175,6 @@ class Token extends AToken
      */
     protected function getTypes(): array
     {
-        return static::$types;
+        return self::$types;
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Fi1a\Tokenizer\PHP;
 
+use Fi1a\Tokenizer\ITokenFactory;
+
 use const T_ABSTRACT;
 use const T_AND_EQUAL;
 use const T_ARRAY;
@@ -102,7 +104,6 @@ use const T_OBJECT_OPERATOR;
 use const T_OPEN_TAG;
 use const T_OPEN_TAG_WITH_ECHO;
 use const T_OR_EQUAL;
-use const T_PAAMAYIM_NEKUDOTAYIM;
 use const T_PLUS_EQUAL;
 use const T_POW;
 use const T_POW_EQUAL;
@@ -146,9 +147,10 @@ abstract class ATokenizer extends \Fi1a\Tokenizer\ATokenizer
     /**
      * Связь между типами токенов (zend => пакет)
      *
-     * @var array
+     * @var int[]
+     * @psalm-param int[]
      */
-    protected static $typeMap = [
+    private static $typeMap = [
         null => Token::T_UNKNOWN_TOKEN_TYPE,
         T_ABSTRACT => Token::T_ABSTRACT,
         T_AND_EQUAL => Token::T_AND_EQUAL,
@@ -249,7 +251,6 @@ abstract class ATokenizer extends \Fi1a\Tokenizer\ATokenizer
         T_OPEN_TAG => Token::T_OPEN_TAG,
         T_OPEN_TAG_WITH_ECHO => Token::T_OPEN_TAG_WITH_ECHO,
         T_OR_EQUAL => Token::T_OR_EQUAL,
-        T_PAAMAYIM_NEKUDOTAYIM => Token::T_PAAMAYIM_NEKUDOTAYIM,
         T_PLUS_EQUAL => Token::T_PLUS_EQUAL,
         T_POW => Token::T_POW,
         T_POW_EQUAL => Token::T_POW_EQUAL,
@@ -290,9 +291,10 @@ abstract class ATokenizer extends \Fi1a\Tokenizer\ATokenizer
     ];
 
     /**
-     * @var array
+     * @var int[]
+     * @psalm-param int[]
      */
-    protected static $stringTypeMap = [
+    private static $stringTypeMap = [
         '<' => Token::T_ANGLE_BRACKET_OPEN,
         '>' => Token::T_ANGLE_BRACKET_CLOSE,
         '(' => Token::T_PARENTHESES_OPEN,
@@ -339,6 +341,9 @@ abstract class ATokenizer extends \Fi1a\Tokenizer\ATokenizer
         $endLine = 1;
         $endColumn = 1;
         $origin = token_get_all($this->getSource());
+        /**
+         * @var ITokenFactory $factory
+         */
         $factory = static::getTokenFactory();
         $map = static::getTypeMap();
         $stringMap = static::getStringTypeMap();
@@ -348,7 +353,7 @@ abstract class ATokenizer extends \Fi1a\Tokenizer\ATokenizer
             }
             $type = null;
             $image = $token[1];
-            if (array_key_exists($token[0], $map)) {
+            if (!is_null($token[0]) && array_key_exists($token[0], $map)) {
                 $type = $map[$token[0]];
             }
             // @codeCoverageIgnoreStart
@@ -368,7 +373,7 @@ abstract class ATokenizer extends \Fi1a\Tokenizer\ATokenizer
             $startColumn = $endColumn;
             $endColumn = ($lines === 0
                 ? $endColumn + mb_strlen($image)
-                : mb_strlen((string) mb_substr($image, mb_strrpos($image, "\n") + 1)) + 1
+                : mb_strlen((string) mb_substr($image, (int) mb_strrpos($image, "\n") + 1)) + 1
             );
             $tokens[] = $factory::factory($type, $image, $startLine, $endLine, $startColumn, $endColumn);
         }

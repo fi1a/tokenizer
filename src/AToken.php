@@ -21,7 +21,7 @@ abstract class AToken implements IToken
     /**
      * @var int
      */
-    private $type = null;
+    private $type = 0;
 
     /**
      * @var string
@@ -31,22 +31,22 @@ abstract class AToken implements IToken
     /**
      * @var int
      */
-    private $startLine = null;
+    private $startLine = 0;
 
     /**
      * @var int
      */
-    private $endLine = null;
+    private $endLine = 0;
 
     /**
      * @var int
      */
-    private $startColumn = null;
+    private $startColumn = 0;
 
     /**
      * @var int
      */
-    private $endColumn = null;
+    private $endColumn = 0;
 
     /**
      * @inheritDoc

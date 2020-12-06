@@ -13,7 +13,7 @@ use Fi1a\Tokenizer\IToken;
 class Tokenizer extends AParseFunction
 {
     /**
-     * @var array
+     * @var int[][][]
      */
     private static $attributeSequence = [
         2 => [
@@ -93,7 +93,7 @@ class Tokenizer extends AParseFunction
     ];
 
     /**
-     * @var array
+     * @var int[][][]
      */
     private static $pseudoSequence = [
         // :eq(value
@@ -118,7 +118,7 @@ class Tokenizer extends AParseFunction
     ];
 
     /**
-     * @var array
+     * @var int[]
      */
     private static $attributeOperators = [
         '|' => Token::T_EITHER_EQUAL,
@@ -130,7 +130,7 @@ class Tokenizer extends AParseFunction
     ];
 
     /**
-     * @var array
+     * @var string[]
      */
     private static $singleWithParse = [
         '#' => 'parseId',
@@ -139,7 +139,7 @@ class Tokenizer extends AParseFunction
     ];
 
     /**
-     * @var array
+     * @var int[]
      */
     private static $single = [
         ',' => Token::T_MULTIPLE_SELECTOR,
@@ -190,25 +190,25 @@ class Tokenizer extends AParseFunction
             return;
         }
         if (
-            array_key_exists($source[$current], static::$attributeOperators)
+            array_key_exists($source[$current], self::$attributeOperators)
             && isset($source[$current + 1]) && $source[$current + 1] === '='
         ) {
             $image = $source[$current] . $source[$current + 1];
-            $type = static::$attributeOperators[$source[$current]];
+            $type = self::$attributeOperators[$source[$current]];
             $current++;
 
             return;
         }
 
-        if (array_key_exists($source[$current], static::$singleWithParse)) {
-            $this->setParseFunction(static::$singleWithParse[$source[$current]]);
+        if (array_key_exists($source[$current], self::$singleWithParse)) {
+            $this->setParseFunction(self::$singleWithParse[$source[$current]]);
 
             return;
         }
 
-        if (array_key_exists($source[$current], static::$single)) {
+        if (array_key_exists($source[$current], self::$single)) {
             $image = $source[$current];
-            $type = static::$single[$source[$current]];
+            $type = self::$single[$source[$current]];
 
             return;
         }
@@ -237,12 +237,12 @@ class Tokenizer extends AParseFunction
 
             return;
         }
-        if ($this->sequence($tokens, Token::T_ATTRIBUTE, static::$attributeSequence)) {
+        if ($this->sequence($tokens, Token::T_ATTRIBUTE, self::$attributeSequence)) {
             $this->setParseFunction('parseAttributeValue');
 
             return;
         }
-        if ($this->sequence($tokens, Token::T_PSEUDO, static::$pseudoSequence)) {
+        if ($this->sequence($tokens, Token::T_PSEUDO, self::$pseudoSequence)) {
             $this->setParseFunction('parsePseudoValue');
 
             return;
@@ -270,6 +270,10 @@ class Tokenizer extends AParseFunction
         if (!array_key_exists(count($sequence), $sequences)) {
             return false;
         }
+        /**
+         * @var int $ind
+         * @var int[][] $values
+         */
         foreach ($sequences[count($sequence)] as $ind => $values) {
             if (!in_array($sequence[$ind], $values)) {
                 return false;
@@ -518,7 +522,7 @@ class Tokenizer extends AParseFunction
                 isset($source[$current])
                 && (
                     $source[$current] !== '\\'
-                    || ($current > 0 && $source[$current] === '\\' && $source[$current - 1] === '\\')
+                    || ($current > 0 && $source[$current - 1] === '\\')
                 )
             ) {
                 $image .= $source[$current];

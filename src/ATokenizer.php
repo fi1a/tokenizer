@@ -22,17 +22,17 @@ abstract class ATokenizer implements ITokenizer
     /**
      * @var string
      */
-    private $encoding = null;
+    private $encoding = '';
 
     /**
-     * @var array
+     * @var IToken[]
      */
-    private $tokens = null;
+    private $tokens = [];
 
     /**
      * @var string
      */
-    private $source = null;
+    private $source = '';
 
     /**
      * @var int
@@ -63,7 +63,7 @@ abstract class ATokenizer implements ITokenizer
      */
     protected function setSource(string $source): self
     {
-        $this->tokens = null;
+        $this->tokens = [];
         $this->source = $this->convertEncodingToWork($source);
 
         return $this;
@@ -142,7 +142,7 @@ abstract class ATokenizer implements ITokenizer
     public function peekNextType(): int
     {
         $token = $this->next();
-        if ($token === self::T_EOF) {
+        if (!($token instanceof IToken)) {
             return self::T_EOF;
         }
 
@@ -155,7 +155,7 @@ abstract class ATokenizer implements ITokenizer
     public function peekPrevType(): int
     {
         $token = $this->prev();
-        if ($token === self::T_BOF) {
+        if (!($token instanceof IToken)) {
             return self::T_BOF;
         }
 
@@ -294,7 +294,7 @@ abstract class ATokenizer implements ITokenizer
         if (!$encoding) {
             $encoding = static::$workEncoding;
         }
-        $this->encoding = (string) $encoding;
+        $this->encoding = $encoding;
 
         return $this;
     }

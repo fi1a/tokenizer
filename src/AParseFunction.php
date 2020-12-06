@@ -14,7 +14,7 @@ abstract class AParseFunction extends ATokenizer
     /**
      * @var string
      */
-    private $parseFunction = null;
+    private $parseFunction;
 
     /**
      * Возвращает функцию парсинга
@@ -41,15 +41,24 @@ abstract class AParseFunction extends ATokenizer
      */
     protected function tokenize(): void
     {
+        /**
+         * @var ITokenFactory $factory
+         */
         $factory = static::getTokenFactory();
         $source = $this->escape($this->getSource());
         $endLine = 1;
         $startLine = 1;
         $startColumn = 1;
+        /**
+         * @var IToken[]
+         */
         $tokens = [];
         $finish = false;
         $current = -1;
         $image = '';
+        /**
+         * @var int|null $type
+         */
         $type = null;
         $quote = false;
         $single = false;
