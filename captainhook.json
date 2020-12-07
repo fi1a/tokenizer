@@ -16,8 +16,12 @@
         ]
     },
     "pre-push": {
-        "enabled": false,
-        "actions": []
+        "enabled": true,
+        "actions": [
+            {
+                "action": "composer pre-push"
+            }
+        ]
     },
     "pre-commit": {
         "enabled": true,
