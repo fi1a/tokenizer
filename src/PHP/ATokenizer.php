@@ -373,7 +373,7 @@ abstract class ATokenizer extends \Fi1a\Tokenizer\ATokenizer
             $startColumn = $endColumn;
             $endColumn = ($lines === 0
                 ? $endColumn + mb_strlen($image)
-                : mb_strlen((string) mb_substr($image, (int) mb_strrpos($image, "\n") + 1)) + 1
+                : mb_strlen(mb_substr($image, (int) mb_strrpos($image, "\n") + 1)) + 1
             );
             $tokens[] = $factory::factory($type, $image, $startLine, $endLine, $startColumn, $endColumn);
         }
