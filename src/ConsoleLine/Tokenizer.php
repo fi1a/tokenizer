@@ -42,86 +42,91 @@ class Tokenizer extends AParseFunction
 
             return;
         }
-        if (!isset($source[$current - 1]) || $source[$current - 1] !== '\\') {
-            if ($source[$current] === ' ') {
-                $image = $source[$current];
+
+        $symbol = mb_substr($source, $current, 1);
+        $prevSymbol = mb_substr($source, $current - 1, 1);
+        $nextSymbol = mb_substr($source, $current + 1, 1);
+
+        if ($current - 1 < 0 || $prevSymbol !== '\\') {
+            if ($symbol === ' ') {
+                $image = $symbol;
                 $type = Token::T_WHITE_SPACE;
 
                 return;
-            } elseif ($source[$current] === '=') {
-                $image = $source[$current];
+            } elseif ($symbol === '=') {
+                $image = $symbol;
                 $type = Token::T_EQUAL;
 
                 return;
-            } elseif ($source[$current] === '|' && isset($source[$current + 1]) && $source[$current + 1] === '|') {
-                $image = $source[$current] . $source[$current + 1];
+            } elseif ($symbol === '|' && $nextSymbol === '|') {
+                $image = $symbol . $nextSymbol;
                 $current++;
                 $type = Token::T_OR;
 
                 return;
-            } elseif ($source[$current] === '|') {
-                $image = $source[$current];
+            } elseif ($symbol === '|') {
+                $image = $symbol;
                 $type = Token::T_PIPE;
 
                 return;
-            } elseif ($source[$current] === '&' && isset($source[$current + 1]) && $source[$current + 1] === '&') {
-                $image = $source[$current] . $source[$current + 1];
+            } elseif ($symbol === '&' && $nextSymbol === '&') {
+                $image = $symbol . $nextSymbol;
                 $current++;
                 $type = Token::T_AND;
 
                 return;
-            } elseif ($source[$current] === '&') {
-                $image = $source[$current];
+            } elseif ($symbol === '&') {
+                $image = $symbol;
                 $type = Token::T_AMPERSAND;
 
                 return;
-            } elseif ($source[$current] === ';') {
-                $image = $source[$current];
+            } elseif ($symbol === ';') {
+                $image = $symbol;
                 $type = Token::T_SEMICOLON;
 
                 return;
-            } elseif ($source[$current] === '!') {
-                $image = $source[$current];
+            } elseif ($symbol === '!') {
+                $image = $symbol;
                 $type = Token::T_NOT;
 
                 return;
-            } elseif ($source[$current] === '{') {
-                $image = $source[$current];
+            } elseif ($symbol === '{') {
+                $image = $symbol;
                 $type = Token::T_BRACES_OPEN;
 
                 return;
-            } elseif ($source[$current] === '}') {
-                $image = $source[$current];
+            } elseif ($symbol === '}') {
+                $image = $symbol;
                 $type = Token::T_BRACES_CLOSE;
 
                 return;
-            } elseif ($source[$current] === '(') {
-                $image = $source[$current];
+            } elseif ($symbol === '(') {
+                $image = $symbol;
                 $type = Token::T_PARENTHESES_OPEN;
 
                 return;
-            } elseif ($source[$current] === ')') {
-                $image = $source[$current];
+            } elseif ($symbol === ')') {
+                $image = $symbol;
                 $type = Token::T_PARENTHESES_CLOSE;
 
                 return;
-            } elseif ($source[$current] === '"') {
-                $image = $source[$current];
+            } elseif ($symbol === '"') {
+                $image = $symbol;
                 $type = Token::T_QUOTE;
                 $quote = !$quote;
 
                 return;
-            } elseif ($source[$current] === '\'') {
-                $image = $source[$current];
+            } elseif ($symbol === '\'') {
+                $image = $symbol;
                 $type = Token::T_QUOTE;
                 $single = !$single;
 
                 return;
-            } elseif ($source[$current] === '-' && isset($source[$current + 1]) && $source[$current + 1] === '-') {
+            } elseif ($symbol === '-' && $nextSymbol === '-') {
                 $this->setParseFunction('parseOption');
 
                 return;
-            } elseif ($source[$current] === '-') {
+            } elseif ($symbol === '-') {
                 $this->setParseFunction('parseShortOption');
 
                 return;
@@ -175,24 +180,17 @@ class Tokenizer extends AParseFunction
         bool &$single
     ): void {
         do {
+            $symbol = mb_substr($source, $current, 1);
+
             if (
                 !$quote
                 && !$single
-                && (
-                    $source[$current] === '&'
-                    || $source[$current] === ';'
-                    || $source[$current] === '|'
-                    || $source[$current] === '!'
-                    || $source[$current] === '{'
-                    || $source[$current] === '}'
-                    || $source[$current] === '('
-                    || $source[$current] === ')'
-                )
+                && in_array($symbol, ['&', ';', '|', '!', '{', '}', '(', ')'])
             ) {
                 $loop = false;
             } else {
-                if (isset($source[$current])) {
-                    $image .= $source[$current];
+                if ($current < mb_strlen($source)) {
+                    $image .= $symbol;
                 }
                 $loop = $this->logicWQS($source, $current, $quote, $single);
                 $current++;
@@ -219,11 +217,14 @@ class Tokenizer extends AParseFunction
     ): void {
         $type = Token::T_OPTION;
         do {
-            if (isset($source[$current])) {
-                $image .= $source[$current];
+            $symbol = mb_substr($source, $current, 1);
+            $nextSymbol = mb_substr($source, $current + 1, 1);
+
+            if ($current < mb_strlen($source)) {
+                $image .= $symbol;
             }
             $loop = $this->logicWQS($source, $current, $quote, $single);
-            if ($loop && !$quote && !$single && $source[$current] !== '\\' && $source[$current + 1] === '=') {
+            if ($loop && !$quote && !$single && $symbol !== '\\' && $nextSymbol === '=') {
                 $loop = false;
             }
             $current++;
@@ -275,13 +276,16 @@ class Tokenizer extends AParseFunction
      */
     protected function logicWQS(string $source, int $current, bool $quote, bool $single): bool
     {
-        if (!isset($source[$current + 1])) {
+        $symbol = mb_substr($source, $current, 1);
+        $nextSymbol = mb_substr($source, $current + 1, 1);
+
+        if ($current + 1 >= mb_strlen($source)) {
             return false;
-        } elseif (!$quote && !$single && $source[$current] !== '\\' && $source[$current + 1] === ' ') {
+        } elseif (!$quote && !$single && $symbol !== '\\' && $nextSymbol === ' ') {
             return false;
-        } elseif (!$single && $quote && $source[$current] !== '\\' && $source[$current + 1] === '"') {
+        } elseif (!$single && $quote && $symbol !== '\\' && $nextSymbol === '"') {
             return false;
-        } elseif (!$quote && $single && $source[$current] !== '\\' && $source[$current + 1] === '\'') {
+        } elseif (!$quote && $single && $symbol !== '\\' && $nextSymbol === '\'') {
             return false;
         }
 

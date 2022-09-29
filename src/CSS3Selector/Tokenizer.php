@@ -184,44 +184,48 @@ class Tokenizer extends AParseFunction
             return;
         }
 
-        if (preg_match('/[\t\s\n]/', $source[$current])) {
+        $symbol = mb_substr($source, $current, 1);
+        $prevSymbol = mb_substr($source, $current - 1, 1);
+        $nextSymbol = mb_substr($source, $current + 1, 1);
+
+        if (preg_match('/[\t\s\n]/', $symbol)) {
             $this->setParseFunction('parseWhitespace');
 
             return;
         }
         if (
-            array_key_exists($source[$current], self::$attributeOperators)
-            && isset($source[$current + 1]) && $source[$current + 1] === '='
+            array_key_exists($symbol, self::$attributeOperators)
+            && $nextSymbol === '='
         ) {
-            $image = $source[$current] . $source[$current + 1];
-            $type = self::$attributeOperators[$source[$current]];
+            $image = $symbol . $nextSymbol;
+            $type = self::$attributeOperators[$symbol];
             $current++;
 
             return;
         }
 
-        if (array_key_exists($source[$current], self::$singleWithParse)) {
-            $this->setParseFunction(self::$singleWithParse[$source[$current]]);
+        if (array_key_exists($symbol, self::$singleWithParse)) {
+            $this->setParseFunction(self::$singleWithParse[$symbol]);
 
             return;
         }
 
-        if (array_key_exists($source[$current], self::$single)) {
-            $image = $source[$current];
-            $type = self::$single[$source[$current]];
+        if (array_key_exists($symbol, self::$single)) {
+            $image = $symbol;
+            $type = self::$single[$symbol];
 
             return;
         }
 
-        if ($source[$current] === '"') {
-            $image = $source[$current];
+        if ($symbol === '"') {
+            $image = $symbol;
             $type = Token::T_QUOTE;
             $quote = !$quote;
 
             return;
         }
-        if ($source[$current] === '\'') {
-            $image = $source[$current];
+        if ($symbol === '\'') {
+            $image = $symbol;
             $type = Token::T_QUOTE;
             $single = !$single;
 
@@ -229,9 +233,8 @@ class Tokenizer extends AParseFunction
         }
 
         if (
-            isset($source[$current - 1])
-            && $source[$current - 1] === '['
-            && preg_match('/[a-z0-9\-\_]/i', $source[$current])
+            $prevSymbol === '['
+            && preg_match('/[a-z0-9\-\_]/i', $symbol)
         ) {
             $this->setParseFunction('parseAttribute');
 
@@ -315,15 +318,18 @@ class Tokenizer extends AParseFunction
         $loop = true;
 
         do {
-            if (isset($source[$current])) {
-                $image .= $source[$current];
+            $symbol = mb_substr($source, $current, 1);
+            $nextSymbol = mb_substr($source, $current + 1, 1);
+
+            if ($current < mb_strlen($source)) {
+                $image .= $symbol;
             }
             if (
-                !isset($source[$current + 1])
-                || (!$single && !$quote && $source[$current + 1] === ']')
-                || (!$single && !$quote && $source[$current + 1] === ')')
-                || (!$single && $quote && $source[$current] !== '\\' && $source[$current + 1] === '"')
-                || (!$quote && $single && $source[$current] !== '\\' && $source[$current + 1] === '\'')
+                $current >= mb_strlen($source)
+                || (!$single && !$quote && $nextSymbol === ']')
+                || (!$single && !$quote && $nextSymbol === ')')
+                || (!$single && $quote && $symbol !== '\\' && $nextSymbol === '"')
+                || (!$quote && $single && $symbol !== '\\' && $nextSymbol === '\'')
             ) {
                 $loop = false;
             }
@@ -446,12 +452,15 @@ class Tokenizer extends AParseFunction
         $type = Token::T_WHITE_SPACE;
         $loop = true;
         do {
-            if (isset($source[$current])) {
-                $image .= $source[$current];
+            $symbol = mb_substr($source, $current, 1);
+            $nextSymbol = mb_substr($source, $current + 1, 1);
+
+            if ($current < mb_strlen($source)) {
+                $image .= $symbol;
             }
-            if (!isset($source[$current + 1])) {
+            if ($current >= mb_strlen($source)) {
                 $loop = false;
-            } elseif (preg_match('/[^\s\t\n]/', $source[$current + 1])) {
+            } elseif (preg_match('/[^\s\t\n]/', $nextSymbol)) {
                 $loop = false;
             }
             $current++;
@@ -475,9 +484,11 @@ class Tokenizer extends AParseFunction
         bool &$quote,
         bool &$single
     ): void {
-        if (preg_match('/[^a-z0-9\-\_\*]/i', $source[$current])) {
+        $symbol = mb_substr($source, $current, 1);
+
+        if (preg_match('/[^a-z0-9\-\_\*]/i', $symbol)) {
             $type = Token::T_UNKNOWN_TOKEN_TYPE;
-            $image .= $source[$current];
+            $image .= $symbol;
             $current++;
 
             return;
@@ -497,8 +508,10 @@ class Tokenizer extends AParseFunction
         bool &$single
     ): void {
         do {
-            if (isset($source[$current])) {
-                $image .= $source[$current];
+            $symbol = mb_substr($source, $current, 1);
+
+            if ($current < mb_strlen($source)) {
+                $image .= $symbol;
             }
             $loop = $this->logicWQS($source, $current, $quote, $single);
             $current++;
@@ -518,14 +531,17 @@ class Tokenizer extends AParseFunction
         bool &$single
     ): void {
         do {
+            $symbol = mb_substr($source, $current, 1);
+            $prevSymbol = mb_substr($source, $current - 1, 1);
+
             if (
-                isset($source[$current])
+                $current < mb_strlen($source)
                 && (
-                    $source[$current] !== '\\'
-                    || ($current > 0 && $source[$current - 1] === '\\')
+                    $symbol !== '\\'
+                    || ($current > 0 && $prevSymbol === '\\')
                 )
             ) {
-                $image .= $source[$current];
+                $image .= $symbol;
             }
             $loop = $this->logicWQSWithEscape($source, $current, $quote, $single);
             $current++;
@@ -539,9 +555,12 @@ class Tokenizer extends AParseFunction
      */
     protected function logicWQSWithEscape(string $source, int $current, bool $quote, bool $single): bool
     {
-        if (!isset($source[$current + 1])) {
+        $symbol = mb_substr($source, $current, 1);
+        $nextSymbol = mb_substr($source, $current + 1, 1);
+
+        if ($current + 1 >= mb_strlen($source)) {
             return false;
-        } elseif (preg_match('/[^a-z0-9\-\_\\\]/im', $source[$current + 1]) && $source[$current] !== '\\') {
+        } elseif (preg_match('/[^a-z0-9\-\_\\\]/im', $nextSymbol) && $symbol !== '\\') {
             return false;
         }
 
@@ -553,9 +572,11 @@ class Tokenizer extends AParseFunction
      */
     protected function logicWQS(string $source, int $current, bool $quote, bool $single): bool
     {
-        if (!isset($source[$current + 1])) {
+        $nextSymbol = mb_substr($source, $current + 1, 1);
+
+        if ($current + 1 >= mb_strlen($source)) {
             return false;
-        } elseif (preg_match('/[^a-z0-9\-\_]/i', $source[$current + 1])) {
+        } elseif (preg_match('/[^a-z0-9\-\_]/i', $nextSymbol)) {
             return false;
         }
 
