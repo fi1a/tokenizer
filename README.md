@@ -88,13 +88,13 @@ while (($token = $tokenizer->next()) !== ITokenizer::T_EOF) {
 [badge-release]: https://img.shields.io/packagist/v/fi1a/tokenizer?label=release
 [badge-license]: https://img.shields.io/github/license/fi1a/tokenizer?style=flat-square
 [badge-php]: https://img.shields.io/packagist/php-v/fi1a/tokenizer?style=flat-square
-[badge-build]: https://img.shields.io/travis/fi1a/tokenizer?style=flat-square
+[badge-build]: https://img.shields.io/travis/com/fi1a/tokenizer?style=flat-square
 [badge-coverage]: https://img.shields.io/coveralls/github/fi1a/tokenizer/master.svg?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/fi1a/tokenizer.svg?style=flat-square&colorB=mediumvioletred
 
 [packagist]: https://packagist.org/packages/fi1a/tokenizer
 [license]: https://github.com/fi1a/tokenizer/blob/master/LICENSE
 [php]: https://php.net
-[build]: https://travis-ci.org/fi1a/tokenizer
+[build]: https://app.travis-ci.com/github/fi1a/tokenizer
 [coverage]: https://coveralls.io/r/fi1a/tokenizer?branch=master
 [downloads]: https://packagist.org/packages/fi1a/tokenizer
