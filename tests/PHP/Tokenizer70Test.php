@@ -98,6 +98,7 @@ class Tokenizer70Test extends TestCase
     {
         $source = file_get_contents(__DIR__ . '/Fixtures/base_class_syntax.txt');
         $tokenizer = new Tokenizer70($source);
+        $this->assertEquals(ITokenizer::T_BOF, $tokenizer->lookAtPrev(1));
         $this->assertEquals(ITokenizer::T_BOF, $tokenizer->lookAtPrevType(1));
         $this->assertEquals(ITokenizer::T_BOF, $tokenizer->lookAtPrevImage(1));
         $this->assertEquals(Token::T_OPEN_TAG, $tokenizer->lookAtNextType(1));
@@ -105,6 +106,7 @@ class Tokenizer70Test extends TestCase
         while (($token = $tokenizer->next()) !== ITokenizer::T_EOF) {
             $token;
         }
+        $this->assertEquals(Token::T_UNKNOWN_TOKEN_TYPE, $tokenizer->lookAtPrev(1)->getType());
         $this->assertEquals(Token::T_UNKNOWN_TOKEN_TYPE, $tokenizer->lookAtPrevType(1));
         $this->assertTrue(is_string($tokenizer->lookAtPrevImage(1)));
         $this->assertEquals(ITokenizer::T_EOF, $tokenizer->lookAtNextType(1));

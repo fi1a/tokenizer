@@ -257,7 +257,7 @@ abstract class ATokenizer implements ITokenizer
     /**
      * @inheritDoc
      */
-    public function lookAtPrevType(int $count = 1): int
+    public function lookAtPrev(int $count = 1)
     {
         $index = $this->getIndex() - $count;
         if ($index < 0) {
@@ -265,7 +265,20 @@ abstract class ATokenizer implements ITokenizer
         }
         $tokens = $this->getTokens();
 
-        return $tokens[$index]->getType();
+        return $tokens[$index];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function lookAtPrevType(int $count = 1): int
+    {
+        $token = $this->lookAtPrev($count);
+        if (!($token instanceof IToken)) {
+            return $token;
+        }
+
+        return $token->getType();
     }
 
     /**
@@ -273,13 +286,12 @@ abstract class ATokenizer implements ITokenizer
      */
     public function lookAtPrevImage(int $count = 1)
     {
-        $index = $this->getIndex() - $count;
-        if ($index < 0) {
-            return self::T_BOF;
+        $token = $this->lookAtPrev($count);
+        if (!($token instanceof IToken)) {
+            return $token;
         }
-        $tokens = $this->getTokens();
 
-        return $tokens[$index]->getImage();
+        return $token->getImage();
     }
 
     /**

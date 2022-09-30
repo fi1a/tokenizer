@@ -102,6 +102,13 @@ interface ITokenizer
     public function lookAtNextImage(int $count = 1);
 
     /**
+     * Возвращает предыдущей токен без смещения указателя
+     *
+     * @return int|IToken
+     */
+    public function lookAtPrev(int $count = 1);
+
+    /**
      * Возвращает предыдущей тип без смещения указателя
      */
     public function lookAtPrevType(int $count = 1): int;
