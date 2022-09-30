@@ -229,7 +229,7 @@ abstract class ATokenizer implements ITokenizer
     /**
      * @inheritDoc
      */
-    public function lookAtNextType(int $count = 1): int
+    public function lookAtNext(int $count = 1)
     {
         $tokens = $this->getTokens();
         $index = $this->getIndex() + $count;
@@ -237,7 +237,20 @@ abstract class ATokenizer implements ITokenizer
             return self::T_EOF;
         }
 
-        return $tokens[$index]->getType();
+        return $tokens[$index];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function lookAtNextType(int $count = 1): int
+    {
+        $token = $this->lookAtNext($count);
+        if (!($token instanceof IToken)) {
+            return $token;
+        }
+
+        return $token->getType();
     }
 
     /**
@@ -245,13 +258,12 @@ abstract class ATokenizer implements ITokenizer
      */
     public function lookAtNextImage(int $count = 1)
     {
-        $tokens = $this->getTokens();
-        $index = $this->getIndex() + $count;
-        if ($index >= $this->getCount()) {
-            return self::T_EOF;
+        $token = $this->lookAtNext($count);
+        if (!($token instanceof IToken)) {
+            return $token;
         }
 
-        return $tokens[$index]->getImage();
+        return $token->getImage();
     }
 
     /**

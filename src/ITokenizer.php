@@ -90,6 +90,13 @@ interface ITokenizer
     public function getTokens(): array;
 
     /**
+     * Возвращает следующий токен без смещения указателя
+     *
+     * @return int|IToken
+     */
+    public function lookAtNext(int $count = 1);
+
+    /**
      * Возвращает следующий тип без смещения указателя
      */
     public function lookAtNextType(int $count = 1): int;
