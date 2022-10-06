@@ -6,6 +6,9 @@ namespace Fi1a\Tokenizer\PHP;
 
 use Fi1a\Tokenizer\ITokenFactory;
 
+defined('T_FN') || define('T_FN', 10001);
+defined('T_COALESCE_EQUAL') || define('T_COALESCE_EQUAL', 10002);
+
 use const T_ABSTRACT;
 use const T_AND_EQUAL;
 use const T_ARRAY;
@@ -23,6 +26,7 @@ use const T_CLASS_C;
 use const T_CLONE;
 use const T_CLOSE_TAG;
 use const T_COALESCE;
+use const T_COALESCE_EQUAL;
 use const T_COMMENT;
 use const T_CONCAT_EQUAL;
 use const T_CONST;
@@ -60,6 +64,7 @@ use const T_EXTENDS;
 use const T_FILE;
 use const T_FINAL;
 use const T_FINALLY;
+use const T_FN;
 use const T_FOR;
 use const T_FOREACH;
 use const T_FUNCTION;
@@ -285,8 +290,8 @@ abstract class ATokenizer extends \Fi1a\Tokenizer\ATokenizer
         T_XOR_EQUAL => Token::T_XOR_EQUAL,
         T_YIELD => Token::T_YIELD,
         T_COALESCE => Token::T_COALESCE,
-        282 => Token::T_COALESCE_EQUAL,
-        343 => Token::T_FN,
+        T_COALESCE_EQUAL => Token::T_COALESCE_EQUAL,
+        T_FN => Token::T_FN,
         T_YIELD_FROM => Token::T_YIELD_FROM,
     ];
 
