@@ -13,7 +13,7 @@
 Установить этот пакет можно как зависимость, используя Composer.
 
 ``` bash
-composer require fi1a/tokenizer
+composer require fi1a/tokenizer ">=1.1.0 <1.2.0"
 ```
 
 **Внимание!** Совместимость версий не гарантируется при переходе major или minor версии.
