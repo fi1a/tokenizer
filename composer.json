@@ -1,7 +1,7 @@
 {
   "name": "fi1a/tokenizer",
   "type": "library",
-  "description": "Лексические анализаторы",
+  "description": "Лексический анализатор строк (tokenizer). Разбор входной последовательности символов на распознанные группы (лексемы).",
   "keywords": [],
   "homepage": "https://github.com/fi1a/tokenizer",
   "license": "MIT",
