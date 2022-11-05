@@ -1,13 +1,13 @@
 {
   "name": "fi1a/tokenizer",
   "type": "library",
-  "description": "Лексический анализатор строк (tokenizer). Разбор входной последовательности символов на распознанные группы (лексемы).",
+  "description": "Лексические анализаторы",
   "keywords": [],
   "homepage": "https://github.com/fi1a/tokenizer",
   "license": "MIT",
   "authors": [
     {
-      "name": "Nikolay Gorohovsky",
+      "name": "Fi1a",
       "email": "fi1a@icloud.com"
     }
   ],
