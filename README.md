@@ -5,6 +5,7 @@
 [![PHP Version][badge-php]][php]
 ![Coverage Status][badge-coverage]
 [![Total Downloads][badge-downloads]][downloads]
+[![Support mail][badge-mail]][mail]
 
 Пакет fi1a/tokenizer предоставляет инструменты для разбора входной последовательности консольной строки, CSS3 селекторов и PHP кода.
 
@@ -86,8 +87,10 @@ while (($token = $tokenizer->next()) !== ITokenizer::T_EOF) {
 [badge-php]: https://img.shields.io/packagist/php-v/fi1a/tokenizer?style=flat-square
 [badge-coverage]: https://img.shields.io/badge/coverage-100%25-green
 [badge-downloads]: https://img.shields.io/packagist/dt/fi1a/tokenizer.svg?style=flat-square&colorB=mediumvioletred
+[badge-mail]: https://img.shields.io/badge/mail-support%40fi1a.ru-brightgreen
 
 [packagist]: https://packagist.org/packages/fi1a/tokenizer
 [license]: https://github.com/fi1a/tokenizer/blob/master/LICENSE
 [php]: https://php.net
 [downloads]: https://packagist.org/packages/fi1a/tokenizer
+[mail]: mailto:support@fi1a.ru
