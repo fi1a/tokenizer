@@ -308,6 +308,16 @@ class TokenizerTest extends TestCase
                 ],
             ],
             //['info --colors -lc ru,en --verbose=2', 11],
+            [
+                '0',
+                1,
+                [
+                    '0',
+                ],
+                [
+                    Token::T_ARGUMENT,
+                ],
+            ],
         ];
     }
 
