@@ -388,6 +388,14 @@ class TokenizerTest extends TestCase
                     Token::T_CLASS,
                 ],
             ],
+            [
+                '0',
+                1,
+                ['0'],
+                [
+                    Token::T_TAG,
+                ],
+            ],
         ];
     }
 
